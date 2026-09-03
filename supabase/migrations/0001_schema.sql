@@ -155,9 +155,10 @@ alter table materiais enable row level security;
 alter table relatorios enable row level security;
 alter table configuracoes enable row level security;
 
--- perfis: cada um lê o próprio perfil; admin lê e gerencia todos
+-- perfis: qualquer usuário logado lê (são só as 3 pessoas da família e o
+-- histórico de etapas precisa mostrar o nome do autor); só admin gerencia
 create policy perfis_select on perfis for select
-  using (id = auth.uid() or eh_admin());
+  using (auth.uid() is not null);
 create policy perfis_admin_all on perfis for all
   using (eh_admin()) with check (eh_admin());
 
