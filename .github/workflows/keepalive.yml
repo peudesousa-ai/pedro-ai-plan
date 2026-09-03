@@ -1,0 +1,27 @@
+name: Manter Supabase ativo
+
+# O free tier do Supabase pausa projetos sem atividade por 7 dias.
+# Este ping semanal na API REST conta como atividade e evita a pausa.
+# Configure os secrets SUPABASE_URL e SUPABASE_ANON_KEY no repositório.
+
+on:
+  schedule:
+    - cron: "0 9 * * 1,4" # segundas e quintas às 9h UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping na API do Supabase
+        run: |
+          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
+            echo "Secret SUPABASE_URL não configurado; pulando."
+            exit 0
+          fi
+          curl --fail --silent --show-error \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/configuracoes?select=valor_contrato_centavos" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -o /dev/null
+          echo "Ping enviado."
