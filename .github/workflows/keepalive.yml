@@ -1,13 +1,19 @@
 name: Manter Supabase ativo
 
 # O free tier do Supabase pausa projetos sem atividade por 7 dias.
-# Este ping semanal na API REST conta como atividade e evita a pausa.
-# Configure os secrets SUPABASE_URL e SUPABASE_ANON_KEY no repositório.
+# Este ping duas vezes por semana na API REST conta como atividade e evita a pausa.
+# A URL e a chave anon são públicas por design (vão no bundle do navegador e a
+# RLS é quem protege os dados), por isso podem ficar neste arquivo — nenhum
+# secret do GitHub é necessário.
 
 on:
   schedule:
     - cron: "0 9 * * 1,4" # segundas e quintas às 9h UTC
   workflow_dispatch:
+
+env:
+  SUPABASE_URL: https://iywqohlfjexttvnwphpx.supabase.co
+  CHAVE_ANON: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5d3FvaGxmamV4dHR2bndwaHB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzOTkyNDIsImV4cCI6MjEwMzk3NTI0Mn0.s_CSMWg2-aP1ztoOGVhoTH9iJDfiZ6blrAxLyVWgK8M
 
 jobs:
   ping:
@@ -15,13 +21,9 @@ jobs:
     steps:
       - name: Ping na API do Supabase
         run: |
-          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
-            echo "Secret SUPABASE_URL não configurado; pulando."
-            exit 0
-          fi
           curl --fail --silent --show-error \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/configuracoes?select=valor_contrato_centavos" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "$SUPABASE_URL/rest/v1/configuracoes?select=valor_contrato_centavos" \
+            -H "apikey: $CHAVE_ANON" \
+            -H "Authorization: Bearer $CHAVE_ANON" \
             -o /dev/null
           echo "Ping enviado."

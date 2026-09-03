@@ -18,6 +18,11 @@ mantém esse delta sempre visível.
 
 Nenhum serviço pago.
 
+**Estado atual:** o app está no ar em **https://obra-lagoa-santa.vercel.app**,
+com o projeto Supabase `obra-lagoa-santa` (região São Paulo) já criado, com
+migrations e seed aplicados. O passo a passo abaixo serve para reproduzir o
+setup do zero, se um dia for preciso.
+
 > Os componentes de UI seguem o padrão shadcn/ui (`src/components/ui` + `components.json`),
 > escritos no repositório em vez de baixados pelo CLI — o resultado é o mesmo e novos
 > componentes podem ser adicionados com `npx shadcn@latest add <componente>`.
@@ -66,14 +71,13 @@ npm run dev
    - `SUPABASE_SERVICE_ROLE_KEY` (usada só no servidor, para o aceite público de relatórios)
 3. Cada push na branch principal gera deploy automático.
 
-### 5. Secrets do GitHub (keepalive)
+### 5. Keepalive (já configurado)
 
 O free tier do Supabase **pausa projetos sem atividade por 7 dias**. O workflow
 `.github/workflows/keepalive.yml` faz um ping duas vezes por semana para evitar
-isso. Configure em **Settings → Secrets and variables → Actions**:
-
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
+isso. A URL e a chave anon ficam no próprio arquivo — são públicas por design
+(vão no bundle do navegador; quem protege os dados é a RLS), então não é
+preciso configurar secret nenhum.
 
 ## Decisões de modelagem
 
