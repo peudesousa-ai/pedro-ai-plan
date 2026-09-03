@@ -11,6 +11,8 @@ import { formatarBRL, formatarData } from "@/lib/formato";
 import type { Pagamento } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FaixaEstatisticas } from "@/components/ui/faixa-estatisticas";
+import { CabecalhoPagina } from "@/components/ui/cabecalho-pagina";
 import {
   Table,
   TableBody,
@@ -56,44 +58,23 @@ export default async function PaginaPagamentos() {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">Pagamentos ao pedreiro</h1>
-        {ehAdmin && <NovoPagamento />}
-      </div>
+      <CabecalhoPagina
+        titulo="Pagamentos"
+        descricao="Mão de obra e aditivos pagos ao pedreiro"
+        acao={ehAdmin ? <NovoPagamento /> : undefined}
+      />
 
-      <div className="grid grid-cols-3 gap-3">
-        <Card className="hover:shadow-md">
-          <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Total pago
-            </p>
-            <p className="mt-1 text-lg font-semibold tabular-nums sm:text-xl">
-              {formatarBRL(total)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="hover:shadow-md">
-          <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Média semanal
-            </p>
-            <p className="mt-1 text-lg font-semibold tabular-nums sm:text-xl">
-              {formatarBRL(media)}
-            </p>
-            <p className="text-xs text-muted-foreground">últimas 8 semanas</p>
-          </CardContent>
-        </Card>
-        <Card className="hover:shadow-md">
-          <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Lançamentos
-            </p>
-            <p className="mt-1 text-lg font-semibold tabular-nums sm:text-xl">
-              {pagamentos.length}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <FaixaEstatisticas
+        itens={[
+          { rotulo: "Total pago", valor: formatarBRL(total) },
+          {
+            rotulo: "Média semanal",
+            valor: formatarBRL(media),
+            detalhe: "últimas 8 semanas",
+          },
+          { rotulo: "Lançamentos", valor: String(pagamentos.length) },
+        ]}
+      />
 
       {intervalos.length > 0 && (
         <Card className="border-alerta bg-alerta-fundo">
@@ -118,9 +99,12 @@ export default async function PaginaPagamentos() {
               <TableRow>
                 <TableHead className="pl-4">Data</TableHead>
                 <TableHead className="text-right">Valor</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead className="hidden sm:table-cell">Observação</TableHead>
-                <TableHead className="pr-4 text-right">Comprovante</TableHead>
+                <TableHead className="hidden sm:table-cell">Tipo</TableHead>
+                <TableHead className="hidden md:table-cell">Observação</TableHead>
+                <TableHead className="pr-4 text-right">
+                  <span className="hidden sm:inline">Comprovante</span>
+                  <span className="sm:hidden">Anexo</span>
+                </TableHead>
                 {ehAdmin && <TableHead />}
               </TableRow>
             </TableHeader>
@@ -138,20 +122,25 @@ export default async function PaginaPagamentos() {
                   : undefined;
                 return (
                   <TableRow key={pagamento.id}>
-                    <TableCell className="whitespace-nowrap pl-4 tabular-nums">
+                    <TableCell className="whitespace-nowrap py-3 pl-4 tabular-nums">
                       {formatarData(pagamento.data)}
+                      {pagamento.tipo === "aditivo" && (
+                        <Badge variant="secondary" className="ml-2 sm:hidden">
+                          aditivo
+                        </Badge>
+                      )}
                     </TableCell>
-                    <TableCell className="text-right font-medium tabular-nums">
+                    <TableCell className="whitespace-nowrap text-right font-medium tabular-nums">
                       {formatarBRL(pagamento.valor_centavos)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden whitespace-nowrap sm:table-cell">
                       {pagamento.tipo === "aditivo" ? (
                         <Badge variant="secondary">aditivo</Badge>
                       ) : (
                         <span className="text-xs text-muted-foreground">mão de obra</span>
                       )}
                     </TableCell>
-                    <TableCell className="hidden max-w-48 truncate text-xs text-muted-foreground sm:table-cell">
+                    <TableCell className="hidden max-w-48 truncate text-xs text-muted-foreground md:table-cell">
                       {pagamento.observacao}
                     </TableCell>
                     <TableCell className="pr-4 text-right">

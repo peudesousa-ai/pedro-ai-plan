@@ -5,6 +5,8 @@ import { criarClienteServidor } from "@/lib/supabase/server";
 import { formatarBRL, formatarData } from "@/lib/formato";
 import type { Etapa, Material } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FaixaEstatisticas } from "@/components/ui/faixa-estatisticas";
+import { CabecalhoPagina } from "@/components/ui/cabecalho-pagina";
 import {
   Table,
   TableBody,
@@ -57,33 +59,22 @@ export default async function PaginaMateriais() {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">Materiais</h1>
-        {ehAdmin && <NovoMaterial etapas={etapas} />}
-      </div>
+      <CabecalhoPagina
+        titulo="Materiais"
+        descricao="Compras feitas e lista do que ainda falta"
+        acao={ehAdmin ? <NovoMaterial etapas={etapas} /> : undefined}
+      />
 
-      <div className="grid grid-cols-2 gap-3">
-        <Card className="hover:shadow-md">
-          <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Total gasto
-            </p>
-            <p className="mt-1 text-lg font-semibold tabular-nums sm:text-xl">
-              {formatarBRL(totalGasto)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="hover:shadow-md">
-          <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Previsto (lista de compras)
-            </p>
-            <p className="mt-1 text-lg font-semibold tabular-nums sm:text-xl">
-              {formatarBRL(totalPrevisto)}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <FaixaEstatisticas
+        itens={[
+          { rotulo: "Total gasto", valor: formatarBRL(totalGasto) },
+          {
+            rotulo: "Previsto",
+            valor: formatarBRL(totalPrevisto),
+            detalhe: "lista de compras",
+          },
+        ]}
+      />
 
       {/* Lista de compras */}
       <Card>
@@ -146,7 +137,10 @@ export default async function PaginaMateriais() {
                 <TableHead className="pl-4">Data</TableHead>
                 <TableHead>Material</TableHead>
                 <TableHead className="text-right">Valor</TableHead>
-                <TableHead className="pr-4 text-right">Comprovante</TableHead>
+                <TableHead className="pr-4 text-right">
+                  <span className="hidden sm:inline">Comprovante</span>
+                  <span className="sm:hidden">Anexo</span>
+                </TableHead>
                 {ehAdmin && <TableHead />}
               </TableRow>
             </TableHeader>
@@ -175,7 +169,7 @@ export default async function PaginaMateriais() {
                           .join(" · ")}
                       </p>
                     </TableCell>
-                    <TableCell className="text-right font-medium tabular-nums">
+                    <TableCell className="whitespace-nowrap text-right font-medium tabular-nums">
                       {material.valor_centavos != null
                         ? formatarBRL(material.valor_centavos)
                         : "—"}

@@ -7,6 +7,7 @@ import { formatarData } from "@/lib/formato";
 import type { Relatorio } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { CabecalhoPagina } from "@/components/ui/cabecalho-pagina";
 import { GerarRelatorio } from "@/components/relatorios/gerar-relatorio";
 import { ExcluirRelatorio } from "@/components/relatorios/acoes-relatorio";
 
@@ -26,15 +27,11 @@ export default async function PaginaRelatorios() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Relatórios</h1>
-          <p className="text-sm text-muted-foreground">
-            Gere o relatório do período e envie o link ao pedreiro para aceite formal.
-          </p>
-        </div>
-        {ehAdmin && <GerarRelatorio />}
-      </div>
+      <CabecalhoPagina
+        titulo="Relatórios"
+        descricao="Gere o relatório do período e envie o link ao pedreiro para aceite formal."
+        acao={ehAdmin ? <GerarRelatorio /> : undefined}
+      />
 
       {relatorios.length === 0 && (
         <Card>
@@ -47,29 +44,35 @@ export default async function PaginaRelatorios() {
       {relatorios.map((relatorio) => {
         const periodo = `${formatarData(relatorio.periodo_inicio)} a ${formatarData(relatorio.periodo_fim)}`;
         return (
-          <Card key={relatorio.id}>
-            <CardContent className="flex items-center gap-3 p-4">
-              <FileText className="h-8 w-8 shrink-0 text-muted-foreground" />
-              <div className="min-w-0 flex-1">
+          <Card key={relatorio.id} className="hover:shadow-md">
+            <CardContent className="flex items-start gap-3 p-4">
+              <span className="mt-0.5 shrink-0 rounded-lg bg-accent p-2 text-accent-foreground">
+                <FileText className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                 <Link
                   href={`/relatorios/${relatorio.id}`}
-                  className="font-medium hover:underline"
+                  className="font-medium leading-tight transition-colors duration-200 hover:text-primary hover:underline"
                 >
                   {periodo}
                 </Link>
                 <p className="text-xs text-muted-foreground">
                   Gerado em {formatarData(relatorio.gerado_em.slice(0, 10))}
                 </p>
+                <div className="mt-0.5">
+                  {relatorio.aceito_em ? (
+                    <Badge variant="ok">
+                      aceito por {relatorio.assinatura_nome ?? relatorio.aceito_por}
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline">aguardando aceite</Badge>
+                  )}
+                </div>
               </div>
-              {relatorio.aceito_em ? (
-                <Badge variant="ok">
-                  aceito por {relatorio.assinatura_nome ?? relatorio.aceito_por}
-                </Badge>
-              ) : (
-                <Badge variant="outline">aguardando aceite</Badge>
-              )}
               {ehAdmin && !relatorio.aceito_em && (
-                <ExcluirRelatorio relatorioId={relatorio.id} descricao={periodo} />
+                <div className="shrink-0">
+                  <ExcluirRelatorio relatorioId={relatorio.id} descricao={periodo} />
+                </div>
               )}
             </CardContent>
           </Card>

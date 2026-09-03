@@ -42,14 +42,19 @@ function CartaoIndicador({
 }) {
   return (
     <Card className="hover:shadow-md">
-      <CardContent className="p-4 sm:p-5">
-        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
+      <CardContent className="flex h-full flex-col p-4 sm:p-5">
+        {/* altura de duas linhas garante que os valores alinhem entre os cards */}
+        <p className="min-h-[2.2em] text-[10px] font-medium uppercase leading-tight tracking-[0.06em] text-muted-foreground sm:text-[11px] sm:tracking-[0.08em]">
           {rotulo}
         </p>
-        <p className="mt-1.5 text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">
+        <p className="whitespace-nowrap pt-1 text-lg font-semibold tabular-nums tracking-tight sm:text-2xl">
           {valor}
         </p>
-        {detalhe && <p className="mt-1 text-xs text-muted-foreground">{detalhe}</p>}
+        {detalhe && (
+          <p className="mt-1 text-[11px] leading-snug text-muted-foreground sm:text-xs">
+            {detalhe}
+          </p>
+        )}
       </CardContent>
     </Card>
   );
@@ -224,7 +229,7 @@ export default async function PaginaDashboard() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Desembolso acumulado</CardTitle>
           <p className="text-xs text-muted-foreground">
-            Pagamentos de mão de obra somados ao longo do tempo.
+            Pagamentos de mão de obra somados ao longo do tempo, em reais.
           </p>
         </CardHeader>
         <CardContent>

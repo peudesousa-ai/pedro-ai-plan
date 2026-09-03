@@ -100,6 +100,27 @@ body {
   background: oklch(0.5 0.14 42 / 0.18);
 }
 
+/* seta do select (o nativo some com appearance-none) */
+.seta-select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2352514e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 16px;
+}
+
+/* o ícone nativo de calendário precisa de folga à direita para não ser cortado */
+input[type="date"] {
+  padding-right: 0.5rem;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 200ms;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
 @media print {
   .nao-imprimir {
     display: none !important;

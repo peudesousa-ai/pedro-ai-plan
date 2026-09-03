@@ -140,7 +140,7 @@ export function VisaoRelatorio({ snapshot }: { snapshot: SnapshotRelatorio }) {
                   <TableCell className="text-xs text-muted-foreground">
                     {pagamento.tipo === "aditivo" ? "aditivo" : "mão de obra"}
                   </TableCell>
-                  <TableCell className="pr-4 text-right font-medium tabular-nums">
+                  <TableCell className="whitespace-nowrap pr-4 text-right font-medium tabular-nums">
                     {formatarBRL(pagamento.valor_centavos)}
                   </TableCell>
                 </TableRow>

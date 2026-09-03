@@ -121,7 +121,7 @@ export function NovoMaterial({ etapas }: { etapas: EtapaOpcao[] }) {
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="mat-qtd">Quantidade</Label>
               <Input
@@ -145,7 +145,7 @@ export function NovoMaterial({ etapas }: { etapas: EtapaOpcao[] }) {
             </div>
           </div>
           {status === "comprado" && (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="mat-data">Data da compra</Label>
                 <Input

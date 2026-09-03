@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { entrar, type EstadoLogin } from "@/app/(auth)/actions";
 import { formatarCpf } from "@/lib/cpf";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,9 @@ const estadoInicial: EstadoLogin = { erro: null };
 
 export function FormularioLogin() {
   const [estado, acao, pendente] = useActionState(entrar, estadoInicial);
+  // campo controlado: o CPF sobrevive a uma tentativa com senha errada,
+  // para ninguém precisar digitar os 11 dígitos de novo no celular
+  const [cpf, setCpf] = useState("");
 
   return (
     <form action={acao} className="flex flex-col gap-4">
@@ -24,9 +27,8 @@ export function FormularioLogin() {
           placeholder="000.000.000-00"
           maxLength={14}
           required
-          onChange={(e) => {
-            e.target.value = formatarCpf(e.target.value);
-          }}
+          value={cpf}
+          onChange={(e) => setCpf(formatarCpf(e.target.value))}
         />
       </div>
       <div className="flex flex-col gap-1.5">

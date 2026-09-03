@@ -6,6 +6,7 @@ import { formatarBRL, formatarPercentual } from "@/lib/formato";
 import { NOMES_GRUPOS, type Etapa, type EtapaHistorico, type GrupoEtapa } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { CabecalhoPagina } from "@/components/ui/cabecalho-pagina";
 import { ItemEtapa } from "@/components/etapas/item-etapa";
 import { NovaEtapa } from "@/components/etapas/nova-etapa";
 
@@ -48,15 +49,13 @@ export default async function PaginaEtapas() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Etapas</h1>
-          <p className="text-sm text-muted-foreground">
-            Avanço ponderado: {formatarPercentual(avancoFisicoPonderado(etapas.filter((e) => e.origem === "contrato")))}
-          </p>
-        </div>
-        {ehAdmin && <NovaEtapa />}
-      </div>
+      <CabecalhoPagina
+        titulo="Etapas"
+        descricao={`Avanço ponderado da obra: ${formatarPercentual(
+          avancoFisicoPonderado(etapas.filter((e) => e.origem === "contrato"))
+        )}`}
+        acao={ehAdmin ? <NovaEtapa /> : undefined}
+      />
 
       {ORDEM_GRUPOS.map((grupo) => {
         const doGrupo = etapas.filter((e) => e.grupo === grupo);

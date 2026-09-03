@@ -9,7 +9,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatarBRL, formatarBRLCompacto, formatarDataCurta } from "@/lib/formato";
+import { formatarBRL, formatarDataCurta } from "@/lib/formato";
+
+/** Rótulo curto do eixo Y ("45 mil"), para não quebrar em duas linhas no celular. */
+function formatarTickEixo(valorCentavos: number): string {
+  const reais = valorCentavos / 100;
+  if (reais === 0) return "0";
+  if (Math.abs(reais) >= 1000) {
+    return `${new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(reais / 1000)} mil`;
+  }
+  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(reais);
+}
 
 const COR_SERIE = "#2a78d6";
 const COR_GRADE = "#e1e0d9";
@@ -43,7 +53,7 @@ export function GraficoCurvaDesembolso({ pontos }: { pontos: Ponto[] }) {
   return (
     <div className="h-56 w-full" role="img" aria-label="Curva de desembolso acumulado ao pedreiro ao longo do tempo">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={pontos} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+        <AreaChart data={pontos} margin={{ top: 12, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="preenchimento" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor={COR_SERIE} stopOpacity={0.25} />
@@ -60,11 +70,11 @@ export function GraficoCurvaDesembolso({ pontos }: { pontos: Ponto[] }) {
             minTickGap={32}
           />
           <YAxis
-            tickFormatter={(v: number) => formatarBRLCompacto(v)}
+            tickFormatter={formatarTickEixo}
             tick={{ fontSize: 11, fill: COR_EIXO }}
             tickLine={false}
             axisLine={false}
-            width={64}
+            width={54}
           />
           <Tooltip content={<TooltipCurva />} cursor={{ stroke: COR_EIXO, strokeDasharray: "3 3" }} />
           <Area
@@ -74,6 +84,7 @@ export function GraficoCurvaDesembolso({ pontos }: { pontos: Ponto[] }) {
             strokeWidth={2}
             fill="url(#preenchimento)"
             activeDot={{ r: 4 }}
+            animationDuration={450}
           />
         </AreaChart>
       </ResponsiveContainer>
