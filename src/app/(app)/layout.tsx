@@ -9,10 +9,20 @@ export default async function LayoutApp({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-dvh bg-background">
-      <header className="nao-imprimir sticky top-0 z-30 flex items-center justify-between border-b bg-card px-4 py-3 lg:pl-60">
-        <div>
-          <p className="text-sm font-semibold leading-tight">Obra Lagoa Santa</p>
-          <p className="text-xs text-muted-foreground">Olá, {perfil.nome.split(" ")[0]}</p>
+      <header className="nao-imprimir sticky top-0 z-30 flex items-center justify-between border-b border-border/70 bg-card/85 px-4 py-3 backdrop-blur-md lg:pl-60">
+        <div className="flex items-center gap-2.5">
+          <span
+            aria-hidden="true"
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow-sm"
+          >
+            O
+          </span>
+          <div>
+            <p className="text-sm font-semibold leading-tight tracking-tight">
+              Obra Lagoa Santa
+            </p>
+            <p className="text-xs text-muted-foreground">Olá, {perfil.nome.split(" ")[0]}</p>
+          </div>
         </div>
         <form action={sair}>
           <Button variant="ghost" size="sm" type="submit" className="text-muted-foreground">

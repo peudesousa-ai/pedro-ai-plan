@@ -50,7 +50,7 @@ export default async function PaginaEtapas() {
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold">Etapas</h1>
+          <h1 className="text-xl font-semibold tracking-tight">Etapas</h1>
           <p className="text-sm text-muted-foreground">
             Avanço ponderado: {formatarPercentual(avancoFisicoPonderado(etapas.filter((e) => e.origem === "contrato")))}
           </p>

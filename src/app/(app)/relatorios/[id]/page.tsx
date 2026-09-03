@@ -35,7 +35,7 @@ export default async function PaginaRelatorio({
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h1 className="text-lg font-semibold">
+          <h1 className="text-xl font-semibold tracking-tight">
             Relatório · {formatarData(relatorio.periodo_inicio)} a{" "}
             {formatarData(relatorio.periodo_fim)}
           </h1>

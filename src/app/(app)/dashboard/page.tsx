@@ -41,13 +41,15 @@ function CartaoIndicador({
   detalhe?: string;
 }) {
   return (
-    <Card>
+    <Card className="hover:shadow-md">
       <CardContent className="p-4 sm:p-5">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
           {rotulo}
         </p>
-        <p className="mt-1 text-xl font-semibold tabular-nums sm:text-2xl">{valor}</p>
-        {detalhe && <p className="mt-0.5 text-xs text-muted-foreground">{detalhe}</p>}
+        <p className="mt-1.5 text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">
+          {valor}
+        </p>
+        {detalhe && <p className="mt-1 text-xs text-muted-foreground">{detalhe}</p>}
       </CardContent>
     </Card>
   );
@@ -136,18 +138,18 @@ export default async function PaginaDashboard() {
           adiantamentoPositivo ? "border-alerta bg-alerta-fundo" : "border-ok bg-ok-fundo"
         }
       >
-        <CardContent className="p-4 sm:p-6">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <CardContent className="p-5 sm:p-7">
+          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
             Adiantamento ao pedreiro
           </p>
           <p
-            className={`mt-1 text-3xl font-semibold tabular-nums sm:text-4xl ${
+            className={`mt-2 text-4xl font-semibold tabular-nums tracking-tight sm:text-5xl ${
               adiantamentoPositivo ? "text-alerta-foreground" : "text-ok"
             }`}
           >
             {formatarBRL(adiantamento)}
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
             {adiantamentoPositivo
               ? "Valor já pago que ainda não virou serviço entregue — quanto maior, maior o risco se a obra parar."
               : "O serviço entregue está à frente do valor pago — sem adiantamento em aberto."}

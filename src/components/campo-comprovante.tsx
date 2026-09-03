@@ -83,8 +83,10 @@ export function CampoComprovante({
       onDragLeave={() => setArrastando(false)}
       onDrop={aoSoltar}
       className={cn(
-        "flex w-full flex-col items-center gap-2 rounded-lg border-2 border-dashed p-6 text-sm text-muted-foreground transition-colors",
-        arrastando ? "border-primary bg-accent" : "hover:border-primary/60"
+        "flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed p-6 text-sm text-muted-foreground transition-all duration-200",
+        arrastando
+          ? "scale-[1.01] border-primary bg-accent"
+          : "hover:border-primary/50 hover:bg-accent/40"
       )}
     >
       <ImagePlus className="h-6 w-6" />

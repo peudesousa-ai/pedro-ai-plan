@@ -2,37 +2,45 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Paleta: neutros "stone" refinados (levemente quentes) + cobre vibrante
+ * como cor de destaque — sóbrio, com identidade de obra/arquitetura.
+ */
 :root {
-  --background: oklch(0.985 0.002 90);
-  --foreground: oklch(0.22 0.015 60);
+  --background: oklch(0.977 0.004 85);
+  --foreground: oklch(0.21 0.012 55);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.015 60);
+  --card-foreground: oklch(0.21 0.012 55);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.015 60);
-  --primary: oklch(0.42 0.09 45);
-  --primary-foreground: oklch(0.98 0.005 90);
-  --secondary: oklch(0.955 0.01 80);
+  --popover-foreground: oklch(0.21 0.012 55);
+  --primary: oklch(0.5 0.14 42);
+  --primary-escuro: oklch(0.42 0.12 42);
+  --primary-foreground: oklch(0.985 0.005 85);
+  --secondary: oklch(0.955 0.008 80);
   --secondary-foreground: oklch(0.3 0.03 50);
-  --muted: oklch(0.955 0.008 85);
-  --muted-foreground: oklch(0.5 0.02 60);
-  --accent: oklch(0.94 0.02 75);
-  --accent-foreground: oklch(0.3 0.03 50);
+  --muted: oklch(0.952 0.007 82);
+  --muted-foreground: oklch(0.46 0.015 60);
+  --accent: oklch(0.945 0.018 65);
+  --accent-foreground: oklch(0.32 0.06 45);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(0.98 0.005 90);
-  --border: oklch(0.9 0.01 80);
-  --input: oklch(0.88 0.012 80);
-  --ring: oklch(0.42 0.09 45);
-  --radius: 0.625rem;
-  --chart-1: oklch(0.42 0.09 45);
+  --border: oklch(0.905 0.008 78);
+  --input: oklch(0.87 0.01 78);
+  --ring: oklch(0.5 0.14 42);
+  --radius: 0.75rem;
+  --chart-1: oklch(0.5 0.14 42);
   --chart-2: oklch(0.6 0.12 155);
   --chart-3: oklch(0.55 0.13 250);
   --chart-4: oklch(0.65 0.15 70);
   --chart-5: oklch(0.55 0.2 27);
   --alerta: oklch(0.62 0.16 60);
-  --alerta-foreground: oklch(0.3 0.08 55);
-  --alerta-fundo: oklch(0.96 0.04 80);
-  --ok: oklch(0.55 0.12 155);
-  --ok-fundo: oklch(0.96 0.03 155);
+  --alerta-foreground: oklch(0.32 0.08 55);
+  --alerta-fundo: oklch(0.965 0.035 78);
+  --ok: oklch(0.52 0.13 155);
+  --ok-fundo: oklch(0.962 0.028 155);
+  /* hero escuro da landing */
+  --hero: oklch(0.24 0.02 50);
+  --hero-brilho: oklch(0.32 0.05 45);
 }
 
 @theme inline {
@@ -43,6 +51,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-escuro: var(--primary-escuro);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -65,10 +74,13 @@
   --color-alerta-fundo: var(--alerta-fundo);
   --color-ok: var(--ok);
   --color-ok-fundo: var(--ok-fundo);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --color-hero: var(--hero);
+  --color-hero-brilho: var(--hero-brilho);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -80,6 +92,12 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: oklch(0.5 0.14 42 / 0.18);
 }
 
 @media print {

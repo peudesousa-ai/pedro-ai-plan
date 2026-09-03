@@ -58,12 +58,12 @@ export default async function PaginaMateriais() {
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Materiais</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Materiais</h1>
         {ehAdmin && <NovoMaterial etapas={etapas} />}
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Card>
+        <Card className="hover:shadow-md">
           <CardContent className="p-4">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Total gasto
@@ -73,7 +73,7 @@ export default async function PaginaMateriais() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:shadow-md">
           <CardContent className="p-4">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Previsto (lista de compras)
